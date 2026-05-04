@@ -3,25 +3,29 @@
  */
 import { playFocus, playLand, playVanish } from './xylophone';
 import { eventBus } from '../core/EventBus';
-import { store } from '../core/Store';
 
-function getCardIndexFromStore(id: string): number {
-    const cards = store.getState().cards;
-    const keys = Object.keys(cards);
-    const idx = keys.indexOf(id);
+/**
+ * Retrouve l'index d'une carte parmi les cartes régulières du plateau (hors estrade).
+ * Lecture directe du DOM pour garantir un résultat fiable même après un reload.
+ */
+function getRegularCardIndex(id: string): number {
+    const platform = document.getElementById('platform-top');
+    if (!platform) return 0;
+    const list = [...platform.querySelectorAll('.drag-card:not(.estrade-block)')] as HTMLElement[];
+    const idx = list.findIndex((el) => el.id === id);
     return idx >= 0 ? idx : 0;
 }
 
 eventBus.on('CARD_FOCUSED', ({ id }: { id: string }) => {
-    void playFocus(getCardIndexFromStore(id));
+    void playFocus(getRegularCardIndex(id));
 });
 
 eventBus.on('CARD_VANISHED', ({ id }: { id: string }) => {
-    void playVanish(getCardIndexFromStore(id));
+    void playVanish(getRegularCardIndex(id));
 });
 
 eventBus.on('CARD_LANDED', ({ id }: { id: string }) => {
-    void playLand(getCardIndexFromStore(id));
+    void playLand(getRegularCardIndex(id));
 });
 
 /** Même ordre que GSAP `stagger.from('center')` sur les indices 0..n-1. */

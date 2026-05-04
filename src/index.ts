@@ -25,7 +25,7 @@ import { mountSkyMenu } from './ui/sky-menu/index';
 import { mountActionPillars } from './ui/action-pillars/index';
 
 import { unlockAudio } from './audio/audio-context';
-import { playFocusForCard, playLandForCard, playVanishForCard } from './audio/card-audio';
+import './audio/card-audio'; // Side-effect : enregistre les listeners EventBus
 
 interface MountOptions {
     skyMenu?: boolean;
@@ -104,9 +104,6 @@ export function addCard(name: string) {
 export {
     /* Sons */
     unlockAudio,
-    playFocusForCard,
-    playLandForCard,
-    playVanishForCard,
 
     /* Cartes */
     listCardFragments,

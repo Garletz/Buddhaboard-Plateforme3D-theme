@@ -138,36 +138,40 @@ export function initBuddhachannel(): void {
         const refWidth = platform.clientWidth || window.innerWidth * 0.68;
         const refHeight = platform.clientHeight || 800;
 
+        // 1. Charger les fragments dans le DOM
         const html = loadCardsJoined();
         const temp = document.createElement('div');
         temp.innerHTML = html;
         applyPercentSizing(temp, refWidth, refHeight);
         platform.innerHTML = temp.innerHTML;
 
-        platform.querySelectorAll('.drag-card').forEach((el) => {
-            const cardEl = el as HTMLElement;
-            store.addCard({
-                id: cardEl.id,
-                slug: cardEl.getAttribute('data-slug') || '',
-                x: parseFloat(cardEl.style.left || '0'),
-                y: parseFloat(cardEl.style.top || '0'),
-                z: parseInt(cardEl.style.zIndex || '0', 10),
-                width: parseFloat(cardEl.style.width || '0'),
-                height: parseFloat(cardEl.style.height || '0')
-            });
-        });
-
-        // ---------------------------------------------------
-        // Persistance: Charger le layout et l'appliquer au DOM
-        // ---------------------------------------------------
+        // 2. Charger le Store depuis LocalStorage (pour les positions sauvegardées)
         store.loadFromLocalStorage();
+
+        // 3. Scanner le DOM pour synchroniser avec le Store
         platform.querySelectorAll('.drag-card').forEach((el) => {
             const cardEl = el as HTMLElement;
-            const state = store.getCard(cardEl.id);
-            if (state) {
-                cardEl.style.left = `${state.x}%`;
-                cardEl.style.top = `${state.y}%`;
-                cardEl.style.zIndex = `${state.z}`;
+            const id = cardEl.id || cardEl.getAttribute('data-slug') || 'unknown';
+            
+            // Si la carte n'est pas dans le Store, on l'ajoute avec sa position DOM actuelle
+            if (!store.getCard(id)) {
+                store.addCard({
+                    id,
+                    slug: cardEl.getAttribute('data-slug') || id,
+                    x: parseFloat(cardEl.style.left || '0'),
+                    y: parseFloat(cardEl.style.top || '0'),
+                    z: parseInt(cardEl.style.zIndex || '0', 10),
+                    width: parseFloat(cardEl.style.width || '0'),
+                    height: parseFloat(cardEl.style.height || '0')
+                });
+            } else {
+                // Si elle existe, on applique la position du Store au DOM
+                const state = store.getCard(id);
+                if (state) {
+                    cardEl.style.left = `${state.x}%`;
+                    cardEl.style.top = `${state.y}%`;
+                    cardEl.style.zIndex = `${state.z}`;
+                }
             }
         });
 
