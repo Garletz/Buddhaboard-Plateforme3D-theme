@@ -35,11 +35,11 @@ export function listCardFragments(): CardFragment[] {
             const order = m ? parseInt(m[1], 10) : Number.MAX_SAFE_INTEGER;
             const id = m ? m[2] : fileName;
             
-            // Injection de data-slug et id généré aléatoirement
-            const uniqueId = `${id}-${Math.random().toString(36).substring(2, 9)}`;
+            // Injection propre des attributs de plateforme juste après l'ouverture du tag <div
+            const uniqueId = id;
             const sluggedHtml = html.replace(
-                /<div\s+class="drag-card"/, 
-                `<div class="drag-card" data-slug="${id}" id="${uniqueId}"`
+                /<div\s+/, 
+                `<div id="${uniqueId}" data-slug="${id}" `
             );
             
             return { id, file: fileName, order, html: sluggedHtml };

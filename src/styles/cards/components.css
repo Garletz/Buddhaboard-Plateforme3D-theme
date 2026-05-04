@@ -323,3 +323,70 @@
         margin-top: 0 !important;
     }
 }
+
+/* =============================================
+   PODCAST CARD — Mini Player Style
+   ============================================= */
+
+.card-podcast {
+    min-width: 220px;
+    min-height: 80px;
+}
+
+.podcast-mini-player {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    gap: 12px;
+    padding: 8px !important;
+    background: #121212 !important; /* Fond sombre style Spotify pour le contenu */
+    margin: 0 6px 6px 6px !important;
+    border-radius: 4px;
+}
+
+.podcast-cover {
+    width: 48px;
+    height: 48px;
+    background: #282828;
+    border-radius: 4px;
+    flex-shrink: 0;
+    position: relative;
+    background-image: linear-gradient(135deg, #4b0000, #8b0000); /* Couleur sombre comme ton image */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.podcast-play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.podcast-meta {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.podcast-title {
+    color: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.podcast-subtitle {
+    color: #b3b3b3;
+    font-size: 11px;
+    margin-top: 2px;
+}
+
+

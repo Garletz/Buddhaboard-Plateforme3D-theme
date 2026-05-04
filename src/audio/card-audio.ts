@@ -9,6 +9,10 @@ import { eventBus } from '../core/EventBus';
  * Lecture directe du DOM pour garantir un résultat fiable même après un reload.
  */
 function getRegularCardIndex(id: string): number {
+    // Cas particulier pour le Podcast : on lui donne une note spécifique (Sol5 / index 3) 
+    // qui "sonne" mieux avec la mélodie zen, peu importe sa position.
+    if (id.includes('audiopodcast')) return 3;
+
     const platform = document.getElementById('platform-top');
     if (!platform) return 0;
     const list = [...platform.querySelectorAll('.drag-card:not(.estrade-block)')] as HTMLElement[];

@@ -1,6 +1,6 @@
 # BuddhaBoard 3D Theme
 
-Un thème spatial 3D immersif ("glassmorphism", plateau isométrique, animations GSAP) prêt à être intégré dans votre projet Astro ou EmDash.
+Un thème spatial 3D immersif ("glassmorphism", plateau isométrique, animations GSAP) prêt à être intégré dans votre projet Astro ou EmDash. Inclut désormais un module **Podcast Audio** avec mini-player intégré.
 
 > Ce projet est conçu selon le modèle "Shadcn/UI" : vous téléchargez le code source brut directement dans votre projet, pour avoir le contrôle absolu sur la physique, l'audio et les composants.
 
@@ -38,5 +38,8 @@ mount(container, { skyMenu: true });
 ```
 
 ---
+
+## 🤖 Pour les Agents IA
+Si vous utilisez ce thème dans un projet de développement assisté, merci de consulter [docs/AGENTS.md](./docs/AGENTS.md) pour les directives de documentation des modifications.
 
 *Développé avec 🧘 par la communauté Buddhachannel.*

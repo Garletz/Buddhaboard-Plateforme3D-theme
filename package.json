@@ -1,7 +1,7 @@
 {
   "name": "create-buddhaboard",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Thème spatial 3D pour Astro et EmDash.",
   "main": "src/index.ts",
