@@ -1,0 +1,325 @@
+/* =============================================
+   COMPONENTS
+   Content placed ON the platform
+   ============================================= */
+
+
+
+/* Draggable UI Window / Card */
+.drag-card {
+    position: absolute;
+    width: 240px;
+    background: linear-gradient(to bottom, #fdf3d7, #f4e3b5);
+    border-radius: 8px;
+    
+    /* Box shadow acts as 3D extrusion/thickness! 
+       Augmenté la hauteur pour mieux "surélever" la carte */
+    box-shadow: 
+        0 10px 0 #ccb070,
+        0 18px 28px rgba(0,0,0,0.18),
+        0 0 0 1px rgba(255,255,255,0.65),
+        0 0 28px rgba(251, 235, 194, 0.35);
+        
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    cursor: default;
+    user-select: none;
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+    border: 1px solid rgba(255,255,255,0.8);
+    resize: both;
+    min-width: 100px;
+    min-height: 50px;
+    container-type: size;
+}
+
+/* Pas de bande réservée sous la carte : le bouton resize est en absolute au-dessus */
+
+/* Header en ligne : titre + poignée déplacement */
+.drag-card:not(.estrade-block) .drag-card__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px 5px 10px;
+    min-height: 28px;
+    position: relative;
+    overflow: visible;
+}
+
+.drag-card__header-text {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Poignée dans le header : petite, fond du bandeau */
+.drag-card__header .card-move-btn {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    cursor: grab;
+    color: inherit;
+    opacity: 0.72;
+    background: rgba(255, 255, 255, 0.28);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,
+        0 1px 2px rgba(0, 0, 0, 0.06);
+    transition: opacity 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+
+.drag-card__header .card-move-btn:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.48);
+}
+
+.drag-card__header .card-move-btn:active {
+    transform: scale(0.94);
+    cursor: grabbing;
+}
+
+.drag-card__header .card-move-btn:focus-visible {
+    outline: 2px solid rgba(201, 162, 39, 0.85);
+    outline-offset: 1px;
+    opacity: 1;
+}
+
+.card-move-btn.card-move-btn--floating:focus-visible {
+    outline: 2px solid #c9a227;
+    outline-offset: 2px;
+}
+
+.drag-card__header .card-dpad-icon {
+    filter: none;
+    opacity: 0.95;
+}
+
+/* Fallback si pas de header */
+.card-move-btn.card-move-btn--floating {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    z-index: 102;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    cursor: grab;
+    color: #4a3f32;
+    opacity: 1;
+    background: linear-gradient(165deg, #fffef9 0%, #e8dcc4 50%, #c4b398 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.85) inset,
+        0 2px 0 #8a7965,
+        0 3px 6px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.drag-card.card--dragging {
+    cursor: grabbing;
+    transform: translateY(3px);
+    box-shadow: 
+        0 5px 0 #c2b077,
+        0 10px 16px rgba(0,0,0,0.18);
+}
+
+.card-resize-btn {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    z-index: 12;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: nwse-resize;
+    color: rgba(74, 63, 50, 0.72);
+    opacity: 0.78;
+    background: linear-gradient(160deg, rgba(255, 254, 250, 0.95) 0%, rgba(230, 220, 200, 0.85) 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 1px 3px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    transition: opacity 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.card-resize-btn:hover {
+    opacity: 1;
+    color: #4a3f32;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.85) inset,
+        0 2px 6px rgba(0, 0, 0, 0.14);
+}
+
+.card-resize-btn:active {
+    transform: scale(0.96);
+}
+
+.card-resize-btn:focus-visible {
+    outline: 2px solid #c9a227;
+    outline-offset: 1px;
+    opacity: 1;
+}
+
+.drag-card:hover .card-resize-btn {
+    opacity: 0.92;
+}
+
+.drag-card__header {
+    background: transparent;
+    padding: 10px 12px 6px 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: clamp(10px, 6cqmin, 16px);
+    flex-shrink: 0;
+    font-weight: 700;
+    color: #6a5a3a;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.drag-card:not(.estrade-block) .drag-card__header {
+    white-space: normal;
+}
+
+.drag-card.estrade-block .drag-card__header {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.drag-card__content {
+    background: #ffffff;
+    margin: 0 8px 8px 8px;
+    padding: 12px;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: clamp(9px, 4cqmin, 14px);
+    color: #555;
+    line-height: 1.4;
+    
+    flex-grow: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Bas du bloc texte : léger dégagement pour la poignée resize en overlay (sans réduire la largeur) */
+.drag-card:not(.estrade-block) .drag-card__content {
+    padding-bottom: 18px;
+}
+
+/* Custom scrollbar interne pour les cartes */
+.drag-card__content::-webkit-scrollbar {
+    width: 4px;
+}
+.drag-card__content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.drag-card__content::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-radius: 4px;
+}
+.drag-card__content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.2);
+}
+
+.drag-card__content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.drag-card__content li {
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+}
+
+.drag-card__content li:last-child {
+    border-bottom: none;
+}
+
+/* Video/Photo placeholder example */
+.drag-card__video {
+    width: calc(100% - 16px);
+    margin: 0 8px 8px 8px;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    
+    flex: 1 1 auto;
+    min-height: 40px;
+    max-height: calc(100cqh - 40px);
+}
+
+.drag-card:not(.estrade-block) .drag-card__video {
+    margin-bottom: 12px;
+}
+
+@container (max-height: 120px) {
+    .drag-card__video {
+        display: none !important;
+    }
+    .drag-card__header {
+        padding: 6px 10px 4px 10px;
+    }
+}
+
+/* =============================================
+   CENTRAL ESTRADE
+   ============================================= */
+.central-estrade {
+    position: absolute;
+    left: 29.5%;
+    top: -1%;
+    width: 40%;
+    height: 97%;
+    background: linear-gradient(155deg, #fdf3d7 0%, #FBEBC2 50%, #f0e0b0 100%);
+    border-radius: 6px;
+    
+    /* Shift UP visually and cast a thick 3D block shadow DOWN */
+    transform: translateY(-16px);
+    box-shadow: 
+        0 16px 0 #d4bc82,
+        0 20px 25px rgba(0,0,0,0.15);
+        
+    z-index: 0; /* behind cards */
+    pointer-events: none; /* Let drag events pass through */
+    
+    /* Add a subtle highlight for the edge */
+    border-top: 1px solid rgba(255,255,255,0.8);
+    border-left: 1px solid rgba(255,255,255,0.5);
+}
+
+.drag-card.on-estrade {
+    /* Translate upwards to sit on the estrade, on top of normal translate if dragged */
+    margin-top: -16px; 
+}
+
+@media (max-width: 1250px) {
+    .central-estrade {
+        display: none !important;
+    }
+    .drag-card.on-estrade {
+        margin-top: 0 !important;
+    }
+}

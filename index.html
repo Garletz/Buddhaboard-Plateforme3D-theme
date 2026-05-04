@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Buddhachannel - Plateforme interactive 3D">
+    <title>Buddhachannel - Plateforme</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="scene" class="scene">
+
+        <div id="sky-menu-container"></div>
+        <div id="action-pillars-container"></div>
+
+        <!-- Background mountain panorama (image source injectée par boot.js) -->
+        <div id="background" class="background">
+            <img alt="Paysage montagneux low-poly" class="background__image">
+        </div>
+
+        <!-- 3D Platform block -->
+        <div id="platform-wrapper" class="platform-wrapper">
+            <div id="platform" class="platform">
+                <div class="platform__top" id="platform-top">
+                    <!-- Les cartes sont injectées par src/boot.js -->
+                </div>
+                <div class="platform__front" id="platform-front">
+                    <button type="button" class="platform-reload" id="platform-reload-cards"
+                        aria-label="Recharger les cartes du plateau" title="Recharger les cartes">
+                        ↻
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="/src/boot.ts"></script>
+</body>
+
+</html>

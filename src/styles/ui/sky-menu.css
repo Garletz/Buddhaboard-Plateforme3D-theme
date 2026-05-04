@@ -1,0 +1,117 @@
+/* =============================================
+   SKY MENU - Floating Navigation (Glassmorphism)
+   ============================================= */
+
+.sky-menu-wrapper {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 100;
+    pointer-events: none; /* Let clicks pass through if needed, except on the menu itself */
+    perspective: 1200px; /* Important pour la perspective 3D */
+}
+
+.sky-menu {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 15px 40px;
+    border-radius: 50px;
+    pointer-events: auto;
+
+    /* Correction de la plonge : Le menu s'incline VERS le spectateur (rotateX négatif) 
+       pour faire écho à la perspective de la plateforme et donner cet effet de surplomb. */
+    transform: rotateX(-24deg) translateZ(50px);
+    transform-origin: top center;
+    
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.2),
+        inset 0 2px 0 rgba(255, 255, 255, 0.6),
+        0 0 40px rgba(255, 255, 255, 0.2); /* Glow behind to make it pop like the sky */
+    
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.sky-menu:hover {
+    transform: rotateX(-5deg) translateZ(80px) translateY(-5px);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.15),
+        inset 0 2px 0 rgba(255, 255, 255, 0.8),
+        0 0 60px rgba(255, 255, 255, 0.3);
+}
+
+.sky-menu__logo {
+    height: 50px;
+    width: auto;
+    margin-right: 20px;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+}
+
+.sky-menu__logo:hover {
+    transform: scale(1.05) translateZ(20px);
+}
+
+.sky-menu__nav {
+    display: flex;
+    gap: 30px;
+}
+
+.sky-menu__link {
+    text-decoration: none;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    position: relative;
+    padding: 5px 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: color 0.3s ease, transform 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.sky-menu__link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #ffffff;
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.sky-menu__link:hover {
+    color: #fdf3d7;
+    transform: translateZ(15px);
+}
+
+.sky-menu__link:hover::after {
+    width: 80%;
+}
+
+@media (max-width: 1250px) {
+    .sky-menu-wrapper {
+        position: static;
+        perspective: none;
+        padding: 20px;
+    }
+    
+    .sky-menu {
+        transform: none;
+        flex-direction: column;
+        border-radius: 15px;
+        gap: 20px;
+    }
+}

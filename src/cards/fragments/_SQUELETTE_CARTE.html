@@ -1,0 +1,30 @@
+<!-- 
+  ==============================================================
+  SQUELETTE DE CARTE "DRAG-CARD"
+  ==============================================================
+  Règles à respecter :
+  1. Classe principale : Doit toujours être "drag-card"
+  2. Positionnement : Spécifiez un 'style' avec 'left' et 'top' (en %) pour sa position initiale sur la plateforme 3D.
+  3. Largeur : Précisez 'width' (en px) pour figer sa taille.
+  4. En-tête : Utilisez "drag-card__header". C'est cette zone qui est intuitivement cliquée pour drag-and-drop.
+  5. Contenu : Utilisez "drag-card__content" pour le texte.
+  6. Médias : Utilisez "drag-card__video" ou une balise <img/> pour des visuels.
+  ==============================================================
+-->
+
+<div class="drag-card" style="left: 40%; top: 40%; width: 300px;">
+    <!-- En-tête de la carte (zone colorée) -->
+    <div class="drag-card__header" style="background: linear-gradient(to bottom, #eaeaea, #d1d1d1);">
+        Titre de la Carte
+    </div>
+
+    <!-- Zone optionnelle : Média mis en avant -->
+    <!-- <div class="drag-card__video" style="aspect-ratio: 16/9; background: #ddd; color: #555;">[Image/Vidéo]</div> -->
+
+    <!-- Contenu principal -->
+    <div class="drag-card__content">
+        <b>Sous-titre ou Accroche</b><br>
+        <small>Texte plus discret</small>
+        <p style="margin-top: 10px;">Texte principal. Vous pouvez intégrer du HTML standard ici (listes, boutons, liens).</p>
+    </div>
+</div>

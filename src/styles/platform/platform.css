@@ -1,0 +1,188 @@
+/* =============================================
+   PLATFORM – 3D Block
+   
+   Calibrated from GeoGebra:
+   • AB/DC = 33.63/44.28 = 0.76 (trapezoid ratio)
+   • DF/AD = 6.42/15.16 = 0.42 (front/top depth ratio)
+   • β = 110.5° (trapezoid corner angles)
+   • δ = 69.37° (junction angle → front plunge)
+   ============================================= */
+
+.platform {
+    position: relative;
+    z-index: 10;
+    width: var(--platform-width);
+    max-width: var(--platform-max-width);
+    height: 0; /* The platform div itself is now just the junction line */
+}
+
+/* ═══════════════════════════════════════════════
+   FACE SUPÉRIEURE (vers le ciel)
+   Trapezoid: back edge 76% of front edge
+   ═══════════════════════════════════════════════ */
+.platform__top {
+    position: absolute;
+    bottom: 0; /* Anchored to the junction */
+    left: 0;
+    width: 100%;
+    aspect-ratio: var(--platform-aspect);
+    z-index: 2; /* Au-dessus de la face plongeante : les cartes ne passent plus « derrière » la tranche */
+
+    background:
+        linear-gradient(
+            155deg,
+            var(--color-top-light) 0%,
+            var(--color-top) 50%,
+            var(--color-top-dark) 100%
+        );
+
+    /* perspective(500px) + rotateX(29deg) → 76% ratio */
+    transform: perspective(var(--platform-perspective)) rotateX(var(--platform-rotate-x));
+    transform-origin: center bottom;
+    transition: transform var(--transition-smooth);
+
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* Top-left light source */
+.platform__top::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.03) 30%,
+            transparent 60%,
+            rgba(0, 0, 0, 0.02) 100%
+        );
+    pointer-events: none;
+}
+
+/* Ambient glow */
+.platform__top::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(
+            ellipse 60% 40% at 45% 25%,
+            rgba(255, 255, 255, 0.06) 0%,
+            transparent 70%
+        );
+    pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════
+   FACE AVANT / FRONTALE (plongeante)
+   Junction angle δ = 69.37°
+   Bottom edge recedes → narrower at bottom
+   Extends to viewport bottom
+   ═══════════════════════════════════════════════ */
+.platform__front {
+    position: absolute;
+    top: 0; /* Anchored to the junction */
+    left: 0;
+    width: 100%;
+    height: 2000px; /* Fills the rest of the screen downwards */
+    z-index: 1;
+
+
+    background:
+        linear-gradient(
+            to bottom,
+            var(--color-front-top) 0%,
+            var(--color-front-mid) 25%,
+            var(--color-front-bottom) 60%,
+            #d4bc82 100%
+        );
+
+    /* Plongeant: bottom recedes into the screen
+       perspective(1000px) + rotateX(-6deg) + origin top
+       → subtle taper matching junction angle */
+    transform: perspective(var(--front-perspective)) rotateX(var(--front-rotate-x));
+    transform-origin: center top;
+    transition: transform var(--transition-smooth);
+
+    /* Highlight at the crease between faces */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.18),
+        inset 0 3px 6px rgba(255, 255, 255, 0.04),
+        inset 0 -3px 8px rgba(0, 0, 0, 0.04);
+
+    /* Close junction gap */
+    margin-top: -1px;
+}
+
+/* Bouton recharger les cartes — sur la face plongeante (tranche), pas sur le plateau */
+.platform-reload {
+    position: absolute;
+    top: clamp(12px, 2.5vmin, 32px);
+    right: clamp(10px, 4vw, 52px);
+    z-index: 4;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(38px, 5vmin, 48px);
+    height: clamp(38px, 5vmin, 48px);
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: clamp(17px, 2.4vmin, 22px);
+    line-height: 1;
+    color: rgba(55, 42, 28, 0.92);
+    background: linear-gradient(
+        165deg,
+        rgba(255, 252, 245, 0.92) 0%,
+        rgba(245, 228, 190, 0.88) 100%
+    );
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    pointer-events: auto;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.platform-reload:hover {
+    transform: scale(1.06);
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.16),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.platform-reload:focus-visible {
+    outline: 2px solid #c9a227;
+    outline-offset: 3px;
+}
+
+.platform-reload:active {
+    transform: scale(0.96);
+}
+
+/* Left and right ambient shading (vignette effect) */
+.platform__front::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to right,
+            rgba(0, 0, 0, 0.25) 0%,
+            transparent 20%,
+            transparent 80%,
+            rgba(0, 0, 0, 0.25) 100%
+        );
+    pointer-events: none;
+}
+
+/* ── HOVER ─────────────────────────────────── */
+.platform__top:hover {
+    transform:
+        perspective(var(--platform-perspective))
+        rotateX(calc(var(--platform-rotate-x) - 2deg));
+}

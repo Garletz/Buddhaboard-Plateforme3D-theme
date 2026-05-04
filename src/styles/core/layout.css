@@ -1,0 +1,150 @@
+/* =============================================
+   SCENE LAYOUT
+   ============================================= */
+
+.scene {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ── Platform wrapper ──────────────────────── 
+   Positioned so proportions match reference:
+   ~39% mountains, ~38% top face, ~23% front face */
+.platform-wrapper {
+    position: absolute;
+    top: 82%; /* Defines the junction line height on the screen */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+}
+
+/* =============================================
+   TOOLBOX UI (Ajout de cartes)
+   ============================================= */
+.card-toolbox {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 200px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.toolbox-header {
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 5px;
+}
+
+.toolbox-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toolbox-btn {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 8px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.toolbox-btn:hover {
+    background: #e9ecef;
+    border-color: #ccc;
+    transform: translateX(2px);
+}
+
+/* =============================================
+   RESPONSIVE MOBILE (Flux défilant)
+   Basculement dès que l'espace devient critique (env. 1250px)
+   ============================================= */
+@media (max-width: 1250px) {
+    html, body {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        height: auto !important;
+    }
+    .scene {
+        position: relative !important;
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        display: block !important;
+        background: #fdf3d7 !important;
+    }
+
+    .background, .background-3d, .platform__front {
+        display: none !important;
+    }
+
+    /* Cacher complètement la boîte à outils et le tuner sur mobile */
+    .card-toolbox, #debug-panel {
+        display: none !important;
+    }
+
+    .platform-wrapper {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        padding: 20px 10px !important;
+        display: block !important;
+    }
+
+    .platform {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .platform__top {
+        position: static !important;
+        width: 100% !important;
+        height: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 20px !important;
+        transform: none !important;
+        perspective: none !important;
+        background: transparent !important;
+    }
+
+    /* Cartes en mode flux pur */
+    .drag-card {
+        position: relative !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+        transform: none !important;
+        margin: 0 0 20px 0 !important;
+        cursor: default !important;
+        container-type: normal !important;
+    }
+
+    /* Désactiver les poignées de redimensionnement */
+    .resizer {
+        display: none !important;
+    }
+}

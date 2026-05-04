@@ -1,0 +1,46 @@
+/* =============================================
+   DESIGN TOKENS
+   
+   Calibrated from GeoGebra measurements:
+   - Back/Front edge ratio: 33.63/44.28 = 0.76
+   - Front face / Top depth ratio: 6.42/15.16 = 0.42
+   - Junction angle δ = 69.37°
+   - Trapezoid corner angle β = 110.5°
+   
+   CSS perspective formula:
+   ratio = P / (P + H × sin(θ))
+   0.76 = P / (P + H × sin(θ))
+   → perspective: 500px, rotateX: 29deg
+   ============================================= */
+
+:root {
+    /* ── Colours (basées sur #FBEBC2) ─────────── */
+    --color-top:            #FBEBC2;
+    --color-top-light:      #fdf3d7;
+    --color-top-dark:       #f0e0b0;
+
+    --color-front-top:      #f0dfac;
+    --color-front-mid:      #e6d49e;
+    --color-front-bottom:   #dcc890;
+
+    /* ── Platform sizing ──────────────────────── */
+    --platform-width:       68%;
+    --platform-max-width:   1100px;
+    --platform-aspect:      12.5 / 6.5;
+
+    /* ── Perspective & rotation ────────────────── 
+       Calculated to achieve 76% back/front ratio */
+    --platform-perspective: 820px;
+    --platform-rotate-x:    24deg;
+
+    /* Front face dive angle (plongeant) 
+       Derived from junction angle δ=69.37° */
+    --front-perspective:    800px;
+    --front-rotate-x:       -18.5deg;
+
+    /* ── Spacing ──────────────────────────────── */
+    --gutter:               4px;
+
+    /* ── Transitions ──────────────────────────── */
+    --transition-smooth:    0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}

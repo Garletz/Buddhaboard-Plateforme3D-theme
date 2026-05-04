@@ -1,0 +1,192 @@
+/* ==========================================================================
+   Action Pillars HUD - 3D Isometric Pedestals
+   ========================================================================== */
+
+#action-pillars-container {
+    position: fixed;
+    bottom: 0; /* Anchor at the very bottom edge */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    pointer-events: none; /* Let clicks pass through empty space */
+    width: 100%;
+    max-width: 900px;
+}
+
+.action-pillars {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    align-items: flex-end;
+    padding-bottom: 25px; /* Distance from bottom */
+    pointer-events: none;
+}
+
+.action-pillar {
+    position: relative;
+    width: 120px;
+    height: 160px;
+    pointer-events: auto; /* Re-enable clicks on the pillars themselves */
+    text-decoration: none;
+    cursor: pointer;
+    /* GSAP will handle initial state via fromTo */
+}
+
+/* ── 3D Pedestal Structure ── */
+.pedestal-3d {
+    position: absolute;
+    bottom: 55px; /* Lift it so text fits below */
+    left: 50%;
+    width: 70px;
+    height: 70px;
+    margin-left: -35px; /* Center horizontally */
+    transform-style: preserve-3d;
+    /* True Isometric projection */
+    transform: rotateX(60deg) rotateZ(45deg);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.face {
+    position: absolute;
+    box-sizing: border-box;
+    /* Soft border for realism */
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Top Face */
+.face--top {
+    width: 70px;
+    height: 70px;
+    top: 0;
+    left: 0;
+    background: var(--pillar-color-top);
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.6);
+}
+
+/* Front-Left Face (extends downward from the bottom edge of the top face) */
+.face--left {
+    width: 70px;
+    height: 800px; /* Long Extrusion depth to ground */
+    top: 100%;
+    left: 0;
+    transform-origin: top;
+    transform: rotateX(-90deg);
+    background: var(--pillar-color-left);
+}
+
+/* Front-Right Face (extends downward from the right edge of the top face) */
+.face--right {
+    width: 800px; /* Long Extrusion depth to ground */
+    height: 70px;
+    top: 0;
+    left: 100%;
+    transform-origin: left;
+    transform: rotateY(90deg);
+    background: var(--pillar-color-right);
+}
+
+/* ── 2D Content Overlay (Icon + Text) ── */
+.pillar-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.pillar-icon {
+    position: absolute;
+    bottom: 85px; /* Floats perfectly over the 3D top face */
+    width: 50px;
+    height: 50px;
+    color: #ffffff;
+    /* Glowing shadow matching the goal.PNG aesthetic */
+    filter: drop-shadow(0 5px 15px var(--pillar-color-glow));
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.4s ease;
+}
+
+.pillar-icon svg {
+    width: 100%;
+    height: 100%;
+    /* Extra inner glow on the SVG strokes */
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+}
+
+.pillar-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* ── Hover Animations ── */
+.action-pillar:hover .pedestal-3d {
+    /* Lift the pedestal slightly */
+    transform: rotateX(60deg) rotateZ(45deg) translateZ(10px);
+}
+
+.action-pillar:hover .face--top {
+    box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.9);
+}
+
+.action-pillar:hover .pillar-icon {
+    /* Lift the icon and intensify the glow */
+    transform: translateY(-8px) scale(1.1);
+    filter: drop-shadow(0 15px 25px var(--pillar-color-glow));
+}
+
+.action-pillar:hover .pillar-label {
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+/* ── Color Themes (matching goal.PNG exactly) ── */
+
+/* 1. Yellow (Méditer) */
+.action-pillar--yellow {
+    --pillar-color-top: #fae4a5;
+    --pillar-color-left: #dfc168;
+    --pillar-color-right: #c7a445;
+    --pillar-color-glow: rgba(255, 215, 0, 0.8);
+}
+
+/* 2. Blue (Enseignements) */
+.action-pillar--blue {
+    --pillar-color-top: #cbe6f7;
+    --pillar-color-left: #9ecbe6;
+    --pillar-color-right: #79acd0;
+    --pillar-color-glow: rgba(100, 200, 255, 0.8);
+}
+
+/* 3. Orange (Communautés) */
+.action-pillar--orange {
+    --pillar-color-top: #fcd5af;
+    --pillar-color-left: #dfab76;
+    --pillar-color-right: #c9884c;
+    --pillar-color-glow: rgba(255, 150, 50, 0.8);
+}
+
+/* 4. Pink (Soutenir) */
+.action-pillar--pink {
+    --pillar-color-top: #f7cce4;
+    --pillar-color-left: #df9cbf;
+    --pillar-color-right: #c576a0;
+    --pillar-color-glow: rgba(255, 100, 180, 0.8);
+}
+
+/* ── Responsive ── */
+@media screen and (max-width: 1250px) {
+    body.show-mobile-list #action-pillars-container {
+        display: none !important; /* Hide completely on mobile / list view */
+    }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "buddhaboard-3d-theme",
+  "private": false,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Plateforme 3D interactive Buddhachannel — cartes draggables, animations GSAP, audio Tone.js.",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles": "./src/styles/index.css",
+    "./boot": "./src/boot.ts"
+  },
+  "files": [
+    "src",
+    "public/logo.png",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "gsap": "^3.13.0",
+    "tone": "^15.0.0"
+  },
+  "peerDependenciesMeta": {
+    "gsap": {
+      "optional": false
+    },
+    "tone": {
+      "optional": false
+    }
+  },
+  "dependencies": {
+    "autofit.js": "^3.2.8",
+    "gsap": "^3.15.0",
+    "screenfull": "^6.0.2",
+    "tone": "^15.1.22"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0"
+  }
+}

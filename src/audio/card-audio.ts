@@ -1,0 +1,59 @@
+/**
+ * API sons « carte » : note selon l’index sur le plateau + synchro intro GSAP.
+ */
+import { playFocus, playLand, playVanish } from './xylophone';
+import { eventBus } from '../core/EventBus';
+import { store } from '../core/Store';
+
+function getCardIndexFromStore(id: string): number {
+    const cards = store.getState().cards;
+    const keys = Object.keys(cards);
+    const idx = keys.indexOf(id);
+    return idx >= 0 ? idx : 0;
+}
+
+eventBus.on('CARD_FOCUSED', ({ id }: { id: string }) => {
+    void playFocus(getCardIndexFromStore(id));
+});
+
+eventBus.on('CARD_VANISHED', ({ id }: { id: string }) => {
+    void playVanish(getCardIndexFromStore(id));
+});
+
+eventBus.on('CARD_LANDED', ({ id }: { id: string }) => {
+    void playLand(getCardIndexFromStore(id));
+});
+
+/** Même ordre que GSAP `stagger.from('center')` sur les indices 0..n-1. */
+export function staggerCenterIndices(length: number): number[] {
+    if (length <= 0) return [];
+    const indices = Array.from({ length }, (_, i) => i);
+    const center = (length - 1) / 2;
+    indices.sort((a, b) => {
+        const da = Math.abs(a - center);
+        const db = Math.abs(b - center);
+        if (da !== db) return da - db;
+        return a - b;
+    });
+    return indices;
+}
+
+
+
+/**
+ * Ajoute des `tl.call()` alignés sur l’entrée des cartes (Phase 4 intro).
+ * @param {gsap.core.Timeline} tl
+ * @param {HTMLElement[]} regularCards
+ * @param {number} t0 position timeline (ex. 1.8)
+ * @param {number} each écart entre chaque note (ex. 0.12)
+ */
+export function bindIntroCardSounds(tl: any, regularCards: HTMLElement[], t0 = 1.8, each = 0.12): void {
+    if (!regularCards.length || !tl) return;
+    const order = staggerCenterIndices(regularCards.length);
+    order.forEach((cardIdx, i) => {
+        const card = regularCards[cardIdx];
+        if (card.id) {
+            tl.call(() => eventBus.emit('CARD_LANDED', { id: card.id }), [], t0 + i * each);
+        }
+    });
+}

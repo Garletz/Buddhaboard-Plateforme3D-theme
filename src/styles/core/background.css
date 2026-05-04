@@ -1,0 +1,20 @@
+/* =============================================
+   BACKGROUND – Mountain panorama
+   Covers the full viewport. The mountains should
+   be clearly visible above the platform.
+   ============================================= */
+
+.background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.background__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}

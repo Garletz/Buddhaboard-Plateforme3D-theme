@@ -1,0 +1,25 @@
+/* =============================================
+   Buddhachannel Plateforme — feuille de styles racine.
+   L’ordre d’import est volontairement : tokens → reset → layout
+   → décor → composants. Toute nouvelle CSS rejoint sa famille
+   (`core`, `platform`, `cards`, `ui`).
+   ============================================= */
+
+/* — Tokens / reset / layout transverse ——————————————————————— */
+@import './core/variables.css';
+@import './core/reset.css';
+@import './core/layout.css';
+@import './core/background.css';
+@import './core/animations.css';
+
+/* — Plateau 3D —————————————————————————————————————————————— */
+@import './platform/platform.css';
+
+/* — Cartes (composants + aperçu plein écran) ——————————————— */
+@import './cards/components.css';
+@import './cards/card-focus.css';
+
+/* — UI (menu, piliers d’action, adapter mobile) ———————————— */
+@import './ui/sky-menu.css';
+@import './ui/action-pillars.css';
+@import './ui/mobile-3d-adapter.css';

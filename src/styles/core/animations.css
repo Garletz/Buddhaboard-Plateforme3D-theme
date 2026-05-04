@@ -1,0 +1,233 @@
+/* =============================================
+   ANIMATIONS & VISUAL POLISH
+   
+   Particle layer, shine sweep, premium shadows,
+   enhanced typography, and micro-animations.
+   ============================================= */
+
+/* ── Google Fonts (loaded via index.html) ───── */
+
+/* ── Particle Floating Layer ─────────────────── */
+.particle-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(251, 235, 194, 0.9) 0%,
+        rgba(242, 131, 0, 0.4) 50%,
+        transparent 100%
+    );
+    box-shadow: 0 0 6px 2px rgba(251, 235, 194, 0.3);
+    will-change: transform, opacity;
+    pointer-events: none;
+}
+
+
+
+/* ── Scene initial state (before GSAP takes over) */
+.scene--loading {
+    opacity: 0;
+}
+
+/* ── Enhanced Toolbox ────────────────────────── */
+.card-toolbox {
+    backdrop-filter: blur(16px) saturate(1.8);
+    -webkit-backdrop-filter: blur(16px) saturate(1.8);
+    background: rgba(255, 255, 255, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    border-radius: 14px !important;
+    transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+                box-shadow 0.3s ease;
+}
+
+.card-toolbox:hover {
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.16),
+        0 4px 12px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+.toolbox-header {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    letter-spacing: 0.02em;
+    color: #4a3d28 !important;
+    text-transform: uppercase;
+}
+
+.toolbox-btn {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+    background: linear-gradient(135deg, #faf8f3 0%, #f0ece3 100%) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 8px !important;
+    padding: 9px 12px !important;
+    font-size: 12px !important;
+    font-weight: 500;
+    color: #5a4d38;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.toolbox-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.4) 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;
+}
+
+.toolbox-btn:hover {
+    background: linear-gradient(135deg, #fff 0%, #f5f0e6 100%) !important;
+    border-color: rgba(242, 131, 0, 0.3) !important;
+    transform: translateX(3px) !important;
+    box-shadow: 0 3px 12px rgba(242, 131, 0, 0.12) !important;
+}
+
+.toolbox-btn:hover::after {
+    opacity: 1;
+}
+
+.toolbox-btn:active {
+    transform: translateX(1px) scale(0.98) !important;
+}
+
+/* ── Enhanced Card Styling ───────────────────── */
+.drag-card {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+    background: linear-gradient(165deg, #fefbf3 0%, #f8f0d8 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 12px !important;
+    box-shadow:
+        0 8px 0 #d4bc82,
+        0 10px 0 #c9b078,
+        0 16px 28px rgba(0, 0, 0, 0.18),
+        0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    transition: box-shadow 0.35s cubic-bezier(0.23, 1, 0.32, 1),
+                border-color 0.3s ease !important;
+    will-change: transform;
+}
+
+.drag-card:active {
+    box-shadow:
+        0 4px 0 #c2b077,
+        0 5px 0 #b8a66d,
+        0 8px 16px rgba(0, 0, 0, 0.18) !important;
+}
+
+/* Card inner light reflex */
+.drag-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 100%
+    );
+    border-radius: 12px 12px 0 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.drag-card__header {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.01em;
+    color: #4a3d28 !important;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) !important;
+    position: relative;
+    z-index: 2;
+}
+
+.drag-card__content {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-radius: 8px !important;
+    box-shadow:
+        inset 0 1px 3px rgba(0, 0, 0, 0.04),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.02) !important;
+    color: #4a4a4a !important;
+    line-height: 1.5 !important;
+    position: relative;
+    z-index: 2;
+}
+
+.drag-card__video {
+    border-radius: 8px !important;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+}
+
+
+
+/* ── Platform face polish ────────────────────── */
+.platform__top {
+    box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.04),
+        0 -4px 20px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* Subtle ambient glow under the platform */
+
+/* ── Delete button polish ────────────────────── */
+.card-delete-btn {
+    background: linear-gradient(135deg, #ef5350, #e53935) !important;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 12px !important;
+    width: 22px !important;
+    height: 22px !important;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3) !important;
+    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1) !important;
+}
+
+.card-delete-btn:hover {
+    background: linear-gradient(135deg, #f44336, #d32f2f) !important;
+    transform: scale(1.15) !important;
+    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4) !important;
+}
+
+/* ── Background enhancement ──────────────────── */
+.background::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        ellipse 80% 50% at 50% 30%,
+        rgba(255, 200, 100, 0.08) 0%,
+        transparent 60%
+    );
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Smooth cursor change during drag ────────── */
+body.is-dragging {
+    cursor: grabbing !important;
+}
+
+body.is-dragging * {
+    cursor: grabbing !important;
+}
+
+

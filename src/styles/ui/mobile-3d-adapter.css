@@ -1,0 +1,190 @@
+/* css/mobile-3d-adapter.css */
+
+/* Cache la toolbox et le tuner sur mobile car la plateforme dézoomée prendra la place.
+   On utilise 1251px pour que toggleResponsiveCSS (qui cible 1250px) ne désactive pas cette règle ! */
+@media screen and (max-width: 1251px) {
+    .card-toolbox, #debug-panel {
+        display: none !important;
+    }
+}
+
+/* On active l'overlay uniquement sur les appareils TACTILES (pointer: coarse) en mode portrait.
+   Cela évite qu'il apparaisse sur Desktop quand on réduit simplement la fenêtre ! */
+@media screen and (max-width: 1024px) and (orientation: portrait) and (pointer: coarse) {
+    /* Cache la scène principale temporairement en portrait */
+    #scene {
+        display: none !important;
+    }
+
+    body {
+        background: var(--bg-deep, #0a0f16);
+    }
+
+    #mobile-portrait-overlay {
+        display: flex !important;
+    }
+}
+
+/* Portrait overlay (caché par défaut) */
+#mobile-portrait-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(135deg, rgba(20,25,35,0.95), rgba(10,15,22,0.98));
+    backdrop-filter: blur(15px);
+    z-index: 99999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.mobile-overlay-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    animation: rotatePhone 2s infinite ease-in-out;
+}
+
+@keyframes rotatePhone {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(90deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.mobile-overlay-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.mobile-overlay-text {
+    font-size: 1.1rem;
+    color: #a0aec0;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.mobile-lobby-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90%;
+}
+
+.mobile-lobby-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 320px;
+    margin-top: 2rem;
+}
+
+.mobile-overlay-btn {
+    color: white;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.mobile-overlay-btn.primary-btn {
+    background: linear-gradient(135deg, #4a90e2, #357abd);
+    box-shadow: 0 10px 20px rgba(74, 144, 226, 0.3);
+}
+
+.mobile-overlay-btn.secondary-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1rem;
+}
+
+.mobile-overlay-btn.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-overlay-btn:active {
+    transform: scale(0.95);
+}
+
+/* Quand l'utilisateur choisit la vue Liste */
+body.show-mobile-list #mobile-portrait-overlay {
+    display: none !important;
+}
+
+body.show-mobile-list #scene {
+    display: block !important;
+}
+
+/* 
+ * FAKE LANDSCAPE CLASSES 
+ * Appliqué via JS si le screen lock natif échoue (ex: iOS)
+ */
+body.force-landscape {
+    width: 100vh !important;
+    height: 100vw !important;
+    transform: rotate(90deg);
+    transform-origin: top left;
+    position: absolute;
+    top: 0;
+    left: 100vw;
+    overflow: hidden;
+}
+
+/* En force landscape, on cache l'overlay et on force l'affichage de la scène */
+body.force-landscape #mobile-portrait-overlay {
+    display: none !important;
+}
+
+body.force-landscape #scene {
+    display: block !important;
+}
+
+/* Bouton Quitter (caché par défaut) */
+#mobile-quit-btn {
+    display: none;
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    z-index: 100000;
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+}
+
+#mobile-quit-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* On affiche le bouton Quitter seulement quand on est en paysage sur mobile */
+@media screen and (max-width: 1251px) and (orientation: landscape) and (pointer: coarse) {
+    #mobile-quit-btn {
+        display: block !important;
+    }
+}
+
+body.force-landscape #mobile-quit-btn {
+    display: block !important;
+}
+
+/* On s'assure qu'aucun scroll n'apparait à cause de l'autofit */
+body {
+    overflow: hidden;
+}
